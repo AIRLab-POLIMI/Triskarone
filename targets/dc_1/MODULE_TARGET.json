@@ -1,0 +1,10 @@
+{
+  "name": "dc_1",
+  "description": "dc_1",
+  "module": "dc",
+  "required_packages": [],
+  "sources": [
+    "main.cpp"
+  ],
+  "includes": []
+}
