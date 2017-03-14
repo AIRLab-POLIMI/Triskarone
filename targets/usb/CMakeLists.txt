@@ -9,13 +9,22 @@ FIND_PACKAGE( CORE_BUILD CONFIG REQUIRED )
 
 INCLUDE ( CoreTarget NO_POLICY_SCOPE )
 SET( PROJECT_INCLUDE_DIRECTORIES
+  ros_lib
 )
 
 SET( PROJECT_SOURCES
   main.cpp
+  rosserial.cpp
+  ros_lib/duration.cpp
+  ros_lib/time.cpp
 )
 
 core_target_module(
   MODULE usb
   OS_VERSION CHIBIOS_3
+  PACKAGES
+    triskar_kinematics
+    triskar_msgs
+    actuator_msgs
+    sensor_msgs
 )

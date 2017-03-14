@@ -1,3 +1,6 @@
+/*
+ * DC_2
+ */
 #include <ModuleConfiguration.hpp>
 #include <Module.hpp>
 
@@ -7,7 +10,7 @@
 
 // --- NODES ------------------------------------------------------------------
 #include <core/sensor_publisher/Publisher.hpp>
-#include <core/actuator_subscriber/Subscriber.hpp>
+#include <core/actuator_subscriber/Speed.hpp>
 #include <core/led/Subscriber.hpp>
 
 // --- BOARD IMPL -------------------------------------------------------------
@@ -19,30 +22,30 @@ Module module;
 
 // --- TYPES ------------------------------------------------------------------
 using QEI_Publisher  = core::sensor_publisher::Publisher<ModuleConfiguration::QEI_DELTA_DATATYPE>;
-using PWM_Subscriber = core::actuator_subscriber::Subscriber<float, core::actuator_msgs::Setpoint_f32>;
+using PID_Subscriber = core::actuator_subscriber::Speed<float, core::actuator_msgs::Setpoint_f32>;
 
 // --- NODES ------------------------------------------------------------------
 core::led::Subscriber led_subscriber("led_subscriber", core::os::Thread::PriorityEnum::LOWEST);
 
 QEI_Publisher  encoder("encoder", module.qei, core::os::Thread::PriorityEnum::NORMAL);
-PWM_Subscriber motor("actuator_sub", module.hbridge_pwm, core::os::Thread::PriorityEnum::NORMAL);
+PID_Subscriber motor("speed_sub", module.hbridge_pwm, core::os::Thread::PriorityEnum::NORMAL);
 
 // --- MAIN -------------------------------------------------------------------
 extern "C" {
    int
    main()
    {
-      module.initialize();
+	  const float period = 10.0;
+	  const float pwmMax = 1.0;
 
-      // Add nodes to the node manager (== board)...
-      module.add(led_subscriber);
-      module.add(encoder);
-      module.add(motor);
+	  module.initialize();
+
 
       // Module configuration
       core::QEI_driver::QEI_DeltaConfiguration qei_configuration;
-      qei_configuration.period = 50;
-      qei_configuration.ticks  = 1000;
+      qei_configuration.period = period;
+      qei_configuration.ticks  = 2000*74.0f;
+      qei_configuration.invert = 0;
       module.qei.setConfiguration(qei_configuration);
 
       // Nodes configuration
@@ -50,13 +53,28 @@ extern "C" {
       led_subscriber_configuration.topic = "led";
       led_subscriber.setConfiguration(led_subscriber_configuration);
 
-      core::actuator_subscriber::Configuration motor_configuration;
-      motor_configuration.topic = "pwm";
-      motor.setConfiguration(motor_configuration);
+      // TODO tune pid constants
+      core::actuator_subscriber::SpeedConfiguration pid_configuration;
+      pid_configuration.kp = 0.34*0.6;
+      pid_configuration.ti = 1.591/20;
+      pid_configuration.td = 0;
+      pid_configuration.ts = period/1000.0;
+      pid_configuration.min = -pwmMax;
+      pid_configuration.max = pwmMax;
+      pid_configuration.encoder_topic = "encoder_2";
+      pid_configuration.setpoint_topic = "speed_2";
+      pid_configuration.idle = 0;
+      pid_configuration.timeout = 500;
+      motor.setConfiguration(pid_configuration);
 
       core::sensor_publisher::Configuration encoder_configuration;
-      encoder_configuration.topic = "encoder";
+      encoder_configuration.topic = "encoder_2";
       encoder.setConfiguration(encoder_configuration);
+
+      // Add nodes to the node manager (== board)...
+      module.add(led_subscriber);
+      module.add(encoder);
+      module.add(motor);
 
       // ... and let's play!
       module.setup();

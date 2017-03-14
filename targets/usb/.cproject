@@ -30,6 +30,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1946956953" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.include.paths.1222624924" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${NOVA_CORE_ROOT}/core-mw/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${NOVA_CORE_ROOT}/core-hw/include&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.356022441" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -100,9 +101,6 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="usb.null.615857034" name="usb"/>
 	</storageModule>
@@ -116,4 +114,14 @@
 			<resource resourceType="PROJECT" workspacePath="/usb"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1865719816;cdt.managedbuild.toolchain.gnu.cross.base.1865719816.406370590;cdt.managedbuild.tool.gnu.cross.c.compiler.2132923675;cdt.managedbuild.tool.gnu.c.compiler.input.1183137001">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1865719816;cdt.managedbuild.toolchain.gnu.cross.base.1865719816.406370590;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1946956953;cdt.managedbuild.tool.gnu.cpp.compiler.input.356022441">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

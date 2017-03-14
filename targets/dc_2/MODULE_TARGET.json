@@ -2,7 +2,7 @@
   "name": "dc_2",
   "description": "dc_2",
   "module": "dc",
-  "required_packages": [],
+  "required_packages": ["pid_ie"],
   "sources": [
     "main.cpp"
   ],
