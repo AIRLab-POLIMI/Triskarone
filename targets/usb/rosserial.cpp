@@ -5,6 +5,8 @@ ros::NodeHandle nh;
 const char* setpointName = "cmd_vel";
 const char* twist_name = "vel";
 const char* enc_name = "enc";
+const char* sonar_name = "proximity";
+
 
 const float encoderFrequency = 100;
 
@@ -16,7 +18,7 @@ RosSerialPublisher::RosSerialPublisher(const char* name,
 		core::os::Thread::Priority priority) :
 		CoreNode::CoreNode(name, priority),
 		twist_pub(twist_name, &ros_twist_msg),
-		sonar_pub(ir_name, &ros_ir_msg),
+		sonar_pub(sonar_name, &ros_ir_msg),
 		enc_pub(enc_name, &ros_enc_msg),
 		setpoint_sub(setpointName, RosSerialPublisher::setpointCallback)
 {
@@ -35,7 +37,7 @@ bool RosSerialPublisher::onPrepareMW() {
 	subscribe(_subscriberTwist, twist_name);
 
 	_subscriberProximity.set_callback(irCallback);
-	subscribe(_subscriberProximity, ir_name);
+	subscribe(_subscriberProximity, sonar_name);
 
 	_subscriberEncoder[0].set_callback(encoderCallback_0);
 	subscribe(_subscriberEncoder[0], "encoder_0");

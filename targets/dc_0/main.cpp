@@ -44,7 +44,7 @@ extern "C" {
       // Module configuration
       core::QEI_driver::QEI_DeltaConfiguration qei_configuration;
       qei_configuration.period = period;
-      qei_configuration.ticks  = 2000*74.0f;
+      qei_configuration.ticks  = 2000*14.0f;//2000*26.0f;//2000*74.0f;
       qei_configuration.invert = 0;
       module.qei.setConfiguration(qei_configuration);
 
@@ -53,10 +53,14 @@ extern "C" {
       led_subscriber_configuration.topic = "led";
       led_subscriber.setConfiguration(led_subscriber_configuration);
 
-      // TODO tune pid constants
+      // tuned pid constants:
+      // ultimate gain K_u: between 0.065 and 0.070
+      // oscillation period at ultimate gain (0.070) : 0.028571429[s]
       core::actuator_subscriber::SpeedConfiguration pid_configuration;
-      pid_configuration.kp = 0.34*0.6;
-      pid_configuration.ti = 1.591/20;
+      pid_configuration.kp = 0.065*0.45;
+      pid_configuration.ti = 0.028571429/1.2;
+//      pid_configuration.kp = 0.34/2/2.85*0.6;
+//      pid_configuration.ti = 1.591*2*2.85/20;
       pid_configuration.td = 0;
       pid_configuration.ts = period/1000.0;
       pid_configuration.min = -pwmMax;
